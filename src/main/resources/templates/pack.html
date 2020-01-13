@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Packages</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <table class="table">
+        <tbody>
+        <p>Package:
+            <span th:text="${package.getName()}">Package Name</span>
+        </p>
+        <p>Description:
+            <span th:each="descriptionLine : ${package.getDescription()}">
+                <span th:text="${descriptionLine}">Description</span><br>
+            </span>
+        </p>
+        <p th:if="${package.getDependencies().size() > 0}">Dependencies:
+            <span th:each="dependency : ${package.getDependencies()}">
+                <a th:if="${packageManager.hasPackage(dependency)}" th:href="@{'/package/' + ${packageManager.getId(dependency)}}">
+                    <span th:text="${dependency}">Dependency</span>
+                </a>
+                <span th:unless="${packageManager.hasPackage(dependency)}" th:text="${dependency}">Dependency</span>
+            </span>
+        </p>
+        <p th:if="${package.getReverseDependencies().size() > 0}">Reverse Dependencies:
+            <span th:each="dependency : ${package.getReverseDependencies()}">
+                <a th:if="${packageManager.hasPackage(dependency)}" th:href="@{'/package/' + ${packageManager.getId(dependency)}}">
+                    <span th:text="${dependency}">Dependency</span>
+                </a>
+                <span th:unless="${packageManager.hasPackage(dependency)}" th:text="${dependency}">Dependency</span>
+            </span>
+        </p>
+        <p>
+            <a href="/">Back to dependency list</a>
+        </p>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

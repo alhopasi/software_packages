@@ -1,0 +1,22 @@
+FROM openjdk:11-slim AS builder
+WORKDIR /app
+
+COPY . .
+
+RUN mkdir -p /usr/share/man/man1 && \
+    apt-get update && apt-get install -y maven && \
+    mvn package
+    
+FROM openjdk:11-slim
+
+COPY --from=builder /app/target/*.jar /app/app.jar
+
+RUN useradd -m spring
+USER spring:spring
+
+EXPOSE 8080
+
+#ENTRYPOINT ["/bin/sh"]
+
+ENTRYPOINT ["java"]
+CMD ["-jar", "/app/app.jar"]

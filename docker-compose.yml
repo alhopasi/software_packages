@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+    software_packages_alpine:
+        image: software_packages:alpine
+        build: .
+        ports:
+            - 5000:8080
+    
+    software_packages_ubuntu:
+        image: software_packages:ubuntu
+        build:
+            context: .
+            dockerfile: Dockerfile-ubuntu
+        ports:
+            - 5001:8080
+
