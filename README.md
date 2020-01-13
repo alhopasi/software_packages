@@ -29,3 +29,5 @@ Package first: `mvn package`  (or download package from releases on github)
 Run: `java -jar target/software_packages-1.0-SNAPSHOT.jar`
 
 On `localhost:8080` we have the webpage.
+
+[![CircleCI](https://circleci.com/gh/alhopasi/software_packages.svg?style=svg)](https://circleci.com/gh/alhopasi/software_packages)
