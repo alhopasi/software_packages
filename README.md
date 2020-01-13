@@ -1,4 +1,10 @@
-## SOFTWARE PACKAGES INFO
+# SOFTWARE PACKAGES INFO
+
+## RUN IN CLOUD:
+
+[https://softwarepackages.herokuapp.com](https://softwarepackages.herokuapp.com)
+
+## RUN LOCAL:
 
 RUN WITH DOCKER
 
