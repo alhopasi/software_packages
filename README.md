@@ -26,6 +26,6 @@ Requires Java 11!
 
 Package first: `mvn package`  (or download package from releases on github)
 
-Run: `java -jar target/software_packages-1.0-SNAPSHOT.jar"
+Run: `java -jar target/software_packages-1.0-SNAPSHOT.jar`
 
 On `localhost:8080` we have the webpage.
