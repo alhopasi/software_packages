@@ -19,22 +19,18 @@ public class PackageReader implements Reader {
 
     public void readFile() {
         System.out.println("reading file: " + fileToRead);
+        index = 0;
         try {Scanner scanner = new Scanner(new File(fileToRead));
             lines = getStrings(scanner);
-            index = 0;
         } catch (Exception e) {
-            try {
-                Scanner scanner = new Scanner(getClass().getClassLoader().getResourceAsStream(fileToRead), "UTF-8");
-                lines = getStrings(scanner);
-                index = 0;
-            } catch (Exception ex) {
-                System.out.println("File " + fileToRead + " not found, using mock");
-                fileToRead = "statusMock.txt";
-                readFile();
-            }
+            System.out.println("File " + fileToRead + " not found, using mock");
+            readMockFile();
         }
+    }
 
-
+    private void readMockFile() {
+        Scanner scanner = new Scanner(getClass().getClassLoader().getResourceAsStream("statusMock.txt"), "UTF-8");
+        lines = getStrings(scanner);
     }
     
     private List<String> getStrings(Scanner scanner) {

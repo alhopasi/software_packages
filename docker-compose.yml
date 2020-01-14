@@ -1,13 +1,13 @@
 version: '3'
 
 services:
-    software_packages_alpine:
+    alpine:
         image: software_packages:alpine
         build: .
         ports:
             - 5000:8080
     
-    software_packages_ubuntu:
+    ubuntu:
         image: software_packages:ubuntu
         build:
             context: .
