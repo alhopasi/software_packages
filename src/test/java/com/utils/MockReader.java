@@ -23,11 +23,11 @@ public class MockReader implements Reader {
         lines.add("Architecture: all");
         lines.add("Version: 1.8.2-4build");
         lines.add("Replaces: ant-doc (<= 1.6.5-1), libant1.6-java");
-        lines.add("Depends: not-found-package, not-found-package2 | not-found-package3, found-package");
+        lines.add("Depends: not-found-package, not-found-package2 | not-found-package3");
         lines.add("Recommends: ant-optional");
         lines.add("Suggests: default-jdk | java-compiler | java-sdk, ant-gcj, ant-doc");
         lines.add("Breaks: ant-doc (<= 1.6.5-1)");
-        lines.add("Pre-Depends: found-package | not-found-package");
+        lines.add("Pre-Depends: does not | depend");
         lines.add("Conflicts: libant1.6-java");
         lines.add("Description: Package for tests");
         lines.add(" testing displaying of stuff \\ and / and < and > ok?");

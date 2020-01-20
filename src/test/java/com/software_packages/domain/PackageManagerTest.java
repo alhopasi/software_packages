@@ -61,7 +61,6 @@ public class PackageManagerTest {
         assertEquals("not-found-package", deps.get(0));
         assertEquals("not-found-package2", deps.get(1));
         assertEquals("not-found-package3", deps.get(2));
-        assertEquals("found-package", deps.get(3));
 
         deps = packs.get(1).getDependencies();
         assertEquals("test-package", deps.get(0));
@@ -73,10 +72,14 @@ public class PackageManagerTest {
 
         List<String> deps = packs.get(0).getReverseDependencies();
         assertEquals("found-package", deps.get(0));
-        assertEquals("not-found-package", deps.get(1));
 
         deps = packs.get(1).getReverseDependencies();
         assertTrue(deps.isEmpty());
+
+
+
+
+
     }
 
     @Test

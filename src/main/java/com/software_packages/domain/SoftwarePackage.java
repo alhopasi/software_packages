@@ -51,8 +51,8 @@ public class SoftwarePackage implements Package {
         return reverseDependencies;
     }
 
-    public void setReverseDependencies(List<String> reversedependencies) {
-        this.reverseDependencies = reversedependencies;
+    public void addReverseDependency(String reverseDependency) {
+        this.reverseDependencies.add(reverseDependency);
     }
 
 }

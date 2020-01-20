@@ -38,33 +38,32 @@ public class PackageManager {
 
     private void createNewPackages() {
         int id = 1;
-        Package sysPackage = new SoftwarePackage(0);
+        Package pack = new SoftwarePackage(0);
         String line = reader.nextLine();
 
         while (line != null) {
-            addContents(sysPackage, line);
-            addPackage(sysPackage);
-            sysPackage = new SoftwarePackage(id);
+            addContents(pack, line);
+            addPackage(pack);
+            pack = new SoftwarePackage(id);
             id++;
             line = reader.nextLine();
         }
+
+        setReverseDependencies();
     }
 
-    private void addContents(Package sysPackage, String line) {
+    private void addContents(Package pack, String line) {
         while (true) {
             String[] bits = line.split(":");
 
             if (bits[0].equals("Package")) {
-                sysPackage.setName(bits[1].trim());
+                pack.setName(bits[1].trim());
             }
             if (bits[0].equals("Description")) {
-                setDescription(sysPackage, line);
+                setDescription(pack, line);
             }
             if (bits[0].equals("Depends")) {
-                setDependencies(sysPackage, bits[1].split(",|\\|"));
-            }
-            if (bits[0].equals("Pre-Depends")) {
-                setReverseDependencies(sysPackage, bits[1].split(",|\\|"));
+                setDependencies(pack, bits[1].split(",|\\|"));
             }
             line = reader.nextLine();
             if (line == null || line.isEmpty()) {
@@ -73,14 +72,24 @@ public class PackageManager {
         }
     }
 
-    private void setReverseDependencies(Package sysPackage, String[] dependencies) {
-        List<String> dependenciesToSet = SplitAndFormatDependencies(dependencies);
-        sysPackage.setReverseDependencies(dependenciesToSet);
+    private void setReverseDependencies() {
+        for (Package pack : packages) {
+            List<String> dependencies = pack.getDependencies();
+            for (String dependency : dependencies) {
+                Package depPack = packagesNameMap.get(dependency);
+                if (depPack == null) {
+                    continue;
+                }
+                depPack.addReverseDependency(pack.getName());
+            }
+        }
+        sortReversePackagesByName();
     }
 
-    private void setDependencies(Package sysPackage, String[] dependencies) {
+    private void setDependencies(Package pack, String[] dependencies) {
         List<String> dependenciesToSet = SplitAndFormatDependencies(dependencies);
-        sysPackage.setDependencies(dependenciesToSet);
+        dependenciesToSet.sort((d1,d2) -> d1.compareTo(d2));
+        pack.setDependencies(dependenciesToSet);
     }
 
     private List<String> SplitAndFormatDependencies(String[] dependencies) {
@@ -92,13 +101,13 @@ public class PackageManager {
         return dependenciesToReturn;
     }
 
-    private void addPackage(Package sysPackage) {
-        packages.add(sysPackage);
-        packagesNameMap.put(sysPackage.getName(), sysPackage);
-        packagesIdMap.put(sysPackage.getId(), sysPackage);
+    private void addPackage(Package pack) {
+        packages.add(pack);
+        packagesNameMap.put(pack.getName(), pack);
+        packagesIdMap.put(pack.getId(), pack);
     }
 
-    private void setDescription(Package sysPackage, String firstLine) {
+    private void setDescription(Package pack, String firstLine) {
         List<String> description = new ArrayList<>();
         String[] bits = firstLine.split("Description: ");
         description.add(bits[1]);
@@ -108,11 +117,11 @@ public class PackageManager {
             s = reader.nextLine();
         }
         reader.previousLine();
-        sysPackage.setDescription(description);
+        pack.setDescription(description);
     }
 
-    public boolean hasPackage(String sysPackage) {
-        return packagesNameMap.containsKey(sysPackage);
+    public boolean hasPackage(String pack) {
+        return packagesNameMap.containsKey(pack);
     }
 
     public Package getPackage(int id) {
@@ -123,8 +132,8 @@ public class PackageManager {
         return packagesNameMap.getOrDefault(packageName, null);
     }
 
-    public int getId(String sysPackage) {
-        Package pack = packagesNameMap.getOrDefault(sysPackage, null);
+    public int getId(String packageName) {
+        Package pack = packagesNameMap.getOrDefault(packageName, null);
         if (pack == null) {
             return -1;
         } else {
@@ -134,5 +143,11 @@ public class PackageManager {
 
     public void sortPackagesByName() {
         packages.sort((p1, p2) -> p1.getName().compareTo(p2.getName()));
+    }
+
+    public void sortReversePackagesByName() {
+        for (Package pack : packages) {
+            pack.getReverseDependencies().sort((d1,d2) -> d1.compareTo(d2));
+        }
     }
 }

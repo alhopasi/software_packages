@@ -13,6 +13,6 @@ public interface Package {
     void setName(String name);
     void setDescription(List<String> description);
     void setDependencies(List<String> dependencies);
-    void setReverseDependencies(List<String> dependencies);
+    void addReverseDependency(String dependency);
 
 }
