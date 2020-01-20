@@ -8,19 +8,14 @@
 </head>
 <body>
 <div class="container">
-    <table class="table">
-        <tbody>
-        <div>Packages:
-            <tr th:each="package : ${packageManager.getPackages()}">
-                <td scope="row">
-                    <a th:href="@{'/package/' + ${packageManager.getId(package.getName())}}">
-                        <span th:text="${package.getName()}">Package Name</span>
-                    </a>
-                </td>
-            </tr>
-        </div>
-        </tbody>
-    </table>
+    <h2 align="center">Packages:</h2>
+    <div>
+        <span th:each="package : ${packageManager.getPackages()}">
+            <a th:href="@{'/package/' + ${packageManager.getId(package.getName())}}">
+                <button type="button" class="btn btn-outline-secondary py-0" style="font-size: 0.8em;" th:text="${package.getName()}">Package Name</button>
+            </a>
+        </span>
+    </div>
 </div>
 </body>
 </html>

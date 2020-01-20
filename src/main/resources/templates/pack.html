@@ -10,29 +10,31 @@
 <div class="container">
     <table class="table">
         <tbody>
-        <p>Package:
+        <h2>
             <span th:text="${package.getName()}">Package Name</span>
-        </p>
-        <p>Description:
+        </h2>
+        <p>
             <span th:each="descriptionLine : ${package.getDescription()}">
                 <span th:text="${descriptionLine}">Description</span><br>
             </span>
         </p>
-        <p th:if="${package.getDependencies().size() > 0}">Dependencies:
+        <p th:if="${package.getDependencies().size() > 0}">
+            <h4 th:if="${package.getDependencies().size() > 0}">Dependencies</h4>
             <span th:each="dependency : ${package.getDependencies()}">
                 <a th:if="${packageManager.hasPackage(dependency)}" th:href="@{'/package/' + ${packageManager.getId(dependency)}}">
-                    <span th:text="${dependency}">Dependency</span>
+                    <button type="button" class="btn btn-outline-secondary py-0" style="font-size: 0.8em;" th:text="${dependency}">Dependency</button>
                 </a>
-                <span th:unless="${packageManager.hasPackage(dependency)}" th:text="${dependency}">Dependency</span>
+                <button th:unless="${packageManager.hasPackage(dependency)}" type="button" class="btn btn-outline-secondary py-0 disabled" style="font-size: 0.8em;" th:text="${dependency}">Dependency</button>
             </span>
         </p>
-        <p th:if="${package.getReverseDependencies().size() > 0}">Reverse Dependencies:
-            <span th:each="dependency : ${package.getReverseDependencies()}">
-                <a th:if="${packageManager.hasPackage(dependency)}" th:href="@{'/package/' + ${packageManager.getId(dependency)}}">
-                    <span th:text="${dependency}">Dependency</span>
-                </a>
-                <span th:unless="${packageManager.hasPackage(dependency)}" th:text="${dependency}">Dependency</span>
-            </span>
+        <p th:if="${package.getReverseDependencies().size() > 0}">
+        <h4 th:if="${package.getReverseDependencies().size() > 0}">Reverse Dependencies</h4>
+        <span th:each="dependency : ${package.getReverseDependencies()}">
+            <a th:if="${packageManager.hasPackage(dependency)}" th:href="@{'/package/' + ${packageManager.getId(dependency)}}">
+                <button type="button" class="btn btn-outline-secondary py-0" style="font-size: 0.8em;" th:text="${dependency}">Dependency</button>
+            </a>
+            <button th:unless="${packageManager.hasPackage(dependency)}" type="button" class="btn btn-outline-secondary py-0 disabled" style="font-size: 0.8em;" th:text="${dependency}">Dependency</button>
+        </span>
         </p>
         <p>
             <a href="/">Back to dependency list</a>
